@@ -1,0 +1,193 @@
+﻿@model calculator.Models.CalculatorModel
+@{
+    ViewData["Title"] = "Калькулятор";
+}
+
+<div class="calculator-container">
+    <h2>Веб-калькулятор</h2>
+    
+    @using (Html.BeginForm())
+    {
+        <div class="calculator">
+            <div class="validation-summary">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+            
+            <div class="input-group">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.FirstNumber, "Первое число:")
+                    @Html.TextBoxFor(m => m.FirstNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.FirstNumber, "", new { @class = "text-danger" })
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConfirmFirstNumber, "Подтверждение первого числа:")
+                    @Html.TextBoxFor(m => m.ConfirmFirstNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ConfirmFirstNumber, "", new { @class = "text-danger" })
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.SecondNumber, "Второе число:")
+                    @Html.TextBoxFor(m => m.SecondNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.SecondNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
+            <div class="operation-select">
+                <label>Операция:</label>
+                <div class="radio-group">
+                    <label>
+                        @Html.RadioButtonFor(m => m.Operation, "+", new { id = "plus", @checked = "checked" })
+                        <span>+</span>
+                    </label>
+                    <label>
+                        @Html.RadioButtonFor(m => m.Operation, "-", new { id = "minus" })
+                        <span>-</span>
+                    </label>
+                    <label>
+                        @Html.RadioButtonFor(m => m.Operation, "*", new { id = "multiply" })
+                        <span>×</span>
+                    </label>
+                    <label>
+                        @Html.RadioButtonFor(m => m.Operation, "/", new { id = "divide" })
+                        <span>÷</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button type="submit" name="button" value="calculate" class="btn btn-primary">Вычислить</button>
+                <button type="submit" name="button" value="clear" class="btn btn-secondary">Очистить</button>
+            </div>
+
+            <div class="result">
+                <h3>Результат:</h3>
+                <p id="result">@Model.Result</p>
+                
+                @if (ViewBag.ExpectedResult != null)
+                {
+                    if (Model.Result == ViewBag.ExpectedResult)
+                    {
+                        <p class="success-message">Результат верный!</p>
+                    }
+                    else
+                    {
+                        <p class="error-message">Результат неверный.</p>
+                    }
+                }
+            </div>
+            
+            <div class="link-section">
+                @Html.ActionLink("Посмотреть последний результат", "Result", "Home", null, new { @class = "btn btn-info" })
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .calculator-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .calculator {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .input-group, .form-group {
+        margin-bottom: 15px;
+    }
+
+    .radio-group {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 5px;
+    }
+    
+    .radio-group label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+    
+    .radio-group label span {
+        margin-left: 5px;
+    }
+
+    .operation-select {
+        margin-bottom: 15px;
+    }
+    
+    .buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .result {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #e9ecef;
+        border-radius: 4px;
+    }
+
+    #result {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+    }
+    
+    .link-section {
+        margin-top: 20px;
+    }
+    
+    .text-danger {
+        color: #dc3545;
+        font-size: 0.8em;
+    }
+    
+    .success-message {
+        color: #28a745;
+        font-weight: bold;
+    }
+    
+    .error-message {
+        color: #dc3545;
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    function calculate() {
+        const num1 = parseFloat(document.getElementById('number1').value);
+        const num2 = parseFloat(document.getElementById('number2').value);
+        const operation = document.getElementById('operation').value;
+        let result;
+
+        switch(operation) {
+            case '+':
+                result = num1 + num2;
+                break;
+            case '-':
+                result = num1 - num2;
+                break;
+            case '*':
+                result = num1 * num2;
+                break;
+            case '/':
+                if (num2 === 0) {
+                    alert('Деление на ноль невозможно!');
+                    return;
+                }
+                result = num1 / num2;
+                break;
+        }
+
+        document.getElementById('result').textContent = result;
+    }
+</script>
