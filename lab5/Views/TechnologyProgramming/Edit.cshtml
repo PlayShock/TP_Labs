@@ -1,0 +1,17 @@
+@model тп_2_лаба_4_семак.Models.TechnologyProgrammingModel
+@{
+    ViewData["Title"] = "Редактировать технологию программирования";
+}
+<h2>@ViewData["Title"]</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelForModel()
+    @Html.EditorForModel()
+    <br />
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
+}
+
+<div>
+    <a href="@Url.Action("Index")">Назад</a>
+</div> 

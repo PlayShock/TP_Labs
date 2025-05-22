@@ -1,0 +1,53 @@
+@model тп_2_лаба_4_семак.Models.TechnologyProgrammingModel[]
+@{
+    ViewData["Title"] = "Список технологий программирования";
+    bool useInternalHelper = ViewData["UseInternalHelper"] != null && (bool)ViewData["UseInternalHelper"];
+    // Внутренний вспомогательный метод
+    Func<тп_2_лаба_4_семак.Models.TechnologyProgrammingModel, string> InternalHelper = tech =>
+        $"{tech.TechnologyName} ({tech.Language}, версия {tech.Version}, релиз: {tech.ReleaseDate.ToShortDateString()}, разработчик: {tech.Developer}, открытый исходный код: {(tech.IsOpenSource ? "Да" : "Нет")}) (внутр.)";
+}
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Описание</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 0;
+            while (i < Model.Length)
+            {
+                var item = Model[i];
+                if (item != null)
+                {
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>
+                            @if (useInternalHelper)
+                            {
+                                @InternalHelper(item)
+                            }
+                            else
+                            {
+                                @Html.TechnologyDescription(item)
+                            }
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = i })">Редактировать</a>
+                        </td>
+                    </tr>
+                }
+                i++;
+            }
+        }
+    </tbody>
+</table>
+
+<div>
+    <a href="@Url.Action("Index")">Назад</a> |
+    <a href="@Url.Action("Create")">Добавить</a>
+</div> 

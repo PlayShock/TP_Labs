@@ -1,0 +1,34 @@
+@model тп_2_лаба_4_семак.Models.TechnologyProgrammingModel
+@{
+    ViewData["Title"] = "Просмотр технологии программирования";
+}
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <div>
+        @Html.LabelFor(m => m.TechnologyName): @Html.DisplayFor(m => m.TechnologyName)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Language): @Html.DisplayFor(m => m.Language)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Version): @Html.DisplayFor(m => m.Version)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.ReleaseDate): @Html.DisplayFor(m => m.ReleaseDate)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Developer): @Html.DisplayFor(m => m.Developer)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.IsOpenSource): @Html.DisplayFor(m => m.IsOpenSource)
+    </div>
+</div>
+
+<div>
+    <a href="@Url.Action("Previous")">Предыдущая</a> |
+    <a href="@Url.Action("Next")">Следующая</a> |
+    <a href="@Url.Action("List")">Список всех</a> |
+    <a href="@Url.Action("Create")">Добавить</a> |
+    <a href="@Url.Action("Edit", new { id = 0 })">Редактировать</a>
+</div> 
